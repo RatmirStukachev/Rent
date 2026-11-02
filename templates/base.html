@@ -1,0 +1,62 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Прокат инструмента - perf.rent.by{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        .navbar-brand { font-weight: bold; font-size: 1.5rem; color: #ff6600 !important; }
+        .footer { background-color: #333; color: white; padding: 20px 0; margin-top: 40px; }
+        .product-card { height: 100%; transition: transform 0.2s; }
+        .product-card:hover { transform: scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .status-available { color: green; font-weight: bold; }
+        .status-rented { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'catalog:product_list' %}">perf.rent.by</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'catalog:product_list' %}">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link text-white fw-bold">+375 (29) 000-00-00</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer class="footer">
+    <div class="container text-center">
+        <p>&copy; {% now "Y" %} perf.rent.by - Прокат строительного инструмента.</p>
+        <p>Адрес: г. Минск, вымышленный адрес | Тел: +375 (29) 000-00-00</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block title %}{{ product.name }} - perf.rent.by{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}">Каталог</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'catalog:product_list_by_category' product.category.slug %}">{{ product.category.name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+  </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card p-3 shadow-sm">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% else %}
+                <div class="bg-light p-5 text-center rounded">
+                    <h5 class="text-muted">Изображение отсутствует</h5>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h1 class="mb-3">{{ product.name }}</h1>
+        <h2 class="text-primary mb-3">{{ product.price_per_day }} BYN <small class="text-muted fs-5">/ сутки</small></h2>
+
+        <p class="fs-5 mb-4">
+            Статус:
+            {% if product.status == 'available' %}
+                <span class="status-available">В наличии</span>
+            {% else %}
+                <span class="status-rented">Занято</span>
+            {% endif %}
+        </p>
+
+        {% if product.description %}
+            <h4>Описание</h4>
+            <p>{{ product.description }}</p>
+        {% endif %}
+
+        {% if product.equipment %}
+            <h4>Комплектация</h4>
+            <p>{{ product.equipment }}</p>
+        {% endif %}
+
+        {% if product.characteristics.all %}
+            <h4>Характеристики</h4>
+            <table class="table table-striped table-sm">
+                <tbody>
+                {% for char in product.characteristics.all %}
+                    <tr>
+                        <th>{{ char.name }}</th>
+                        <td>{{ char.value }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <!-- Order Form Card -->
+        <div class="card mt-5 shadow-sm border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Забронировать инструмент</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-lg btn-success">Отправить заявку</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
