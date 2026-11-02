@@ -1,0 +1,44 @@
+<div class="col">
+    <div class="card product-card shadow-sm border-0 h-100 position-relative">
+
+        <!-- Badges -->
+        <div class="position-absolute top-0 start-0 p-2 d-flex flex-column gap-1" style="z-index: 10;">
+            {% if product.is_new %}
+                <span class="badge bg-danger">NEW</span>
+            {% endif %}
+            {% if product.is_hit %}
+                <span class="badge bg-success">ХИТ</span>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'catalog:product_detail' product.id product.slug %}" class="text-decoration-none">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top p-3" alt="{{ product.name }}" style="height: 200px; object-fit: contain;">
+            {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <span class="text-muted"><i class="bi bi-camera fs-1"></i></span>
+                </div>
+            {% endif %}
+        </a>
+        <div class="card-body d-flex flex-column text-center">
+            <h5 class="card-title fs-6 fw-bold mb-3">
+                <a href="{% url 'catalog:product_detail' product.id product.slug %}" class="text-dark text-decoration-none product-link">
+                    {{ product.name }}
+                </a>
+            </h5>
+
+            <div class="mt-auto">
+                <h4 class="text-dark fw-bold mb-2">{{ product.price_per_day }} BYN <span class="fs-6 fw-normal text-muted">/ сут.</span></h4>
+
+                <p class="mb-3 small">
+                    {% if product.status == 'available' %}
+                        <span class="text-success"><i class="bi bi-check-circle-fill"></i> В наличии</span>
+                    {% else %}
+                        <span class="text-danger"><i class="bi bi-x-circle-fill"></i> Занято</span>
+                    {% endif %}
+                </p>
+                <a href="{% url 'catalog:product_detail' product.id product.slug %}" class="btn btn-warning w-100 fw-bold">В корзину</a>
+            </div>
+        </div>
+    </div>
+</div>

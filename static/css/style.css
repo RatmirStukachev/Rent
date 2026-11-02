@@ -1,0 +1,56 @@
+body {
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.main-container {
+    min-height: 70vh;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.product-link:hover {
+    color: #ffc107 !important;
+}
+
+.category-menu .list-group-item {
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.category-menu .list-group-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: #ffc107;
+}
+
+.category-menu .list-group-item.text-warning {
+    background-color: #fff3cd;
+    border-left-color: #ffc107;
+}
+
+.section-title {
+    font-weight: 800;
+    color: #343a40;
+    text-transform: uppercase;
+}
+
+/* Customizing Bootstrap Warning Color to match perf.by Orange better if needed,
+   though standard warning is quite close */
+.btn-warning {
+    color: #000;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    color: #000;
+    background-color: #ffcd39;
+    border-color: #ffc720;
+}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Category, Product
+from django.db.models import Q
+from .models import Category, Product, SliderItem
 from .forms import OrderForm
 
 def product_list(request, category_slug=None):
@@ -8,14 +9,28 @@ def product_list(request, category_slug=None):
     categories = Category.objects.all()
     products = Product.objects.all()
 
+    # Handle search
+    query = request.GET.get('q')
+    if query:
+        products = products.filter(Q(name__icontains=query) | Q(description__icontains=query))
+
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
 
+    # Get homepage specific data if no category and no search
+    slides = SliderItem.objects.filter(is_active=True) if not category and not query else []
+    new_products = Product.objects.filter(is_new=True)[:4] if not category and not query else []
+    hit_products = Product.objects.filter(is_hit=True)[:4] if not category and not query else []
+
     context = {
         'category': category,
         'categories': categories,
-        'products': products
+        'products': products,
+        'search_query': query,
+        'slides': slides,
+        'new_products': new_products,
+        'hit_products': hit_products,
     }
     return render(request, 'catalog/product_list.html', context)
 

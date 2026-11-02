@@ -25,6 +25,8 @@ class Product(models.Model):
     equipment = models.TextField(blank=True, verbose_name="Комплектация")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available', verbose_name="Статус")
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True, verbose_name="Изображение")
+    is_hit = models.BooleanField(default=False, verbose_name="ХИТ (Популярный товар)")
+    is_new = models.BooleanField(default=False, verbose_name="NEW (Новинка)")
 
     class Meta:
         verbose_name = "Товар"
@@ -68,3 +70,20 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ #{self.id} - {self.product.name} ({self.customer_name})"
+
+
+class SliderItem(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Заголовок")
+    subtitle = models.CharField(max_length=200, blank=True, verbose_name="Подзаголовок (текст)")
+    image = models.ImageField(upload_to='slider/%Y/%m/%d', verbose_name="Изображение (баннер)")
+    link = models.URLField(blank=True, verbose_name="Ссылка")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок сортировки")
+    is_active = models.BooleanField(default=True, verbose_name="Активен")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Слайд"
+        verbose_name_plural = "Слайдер на главной"
+
+    def __str__(self):
+        return self.title

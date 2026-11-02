@@ -12,31 +12,45 @@
   </ol>
 </nav>
 
-<div class="row">
-    <div class="col-md-6 mb-4">
-        <div class="card p-3 shadow-sm">
+<div class="row bg-white p-4 rounded shadow-sm">
+    <div class="col-md-5 mb-4 position-relative">
+        <!-- Badges -->
+        <div class="position-absolute top-0 start-0 p-3 d-flex flex-column gap-1" style="z-index: 10;">
+            {% if product.is_new %}
+                <span class="badge bg-danger fs-6">NEW</span>
+            {% endif %}
+            {% if product.is_hit %}
+                <span class="badge bg-success fs-6">ХИТ</span>
+            {% endif %}
+        </div>
+
+        <div class="card p-3 border-0">
             {% if product.image %}
-                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 400px; object-fit: contain;">
             {% else %}
-                <div class="bg-light p-5 text-center rounded">
-                    <h5 class="text-muted">Изображение отсутствует</h5>
+                <div class="bg-light p-5 text-center rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+                    <span class="text-muted"><i class="bi bi-camera fs-1"></i><br>Нет фото</span>
                 </div>
             {% endif %}
         </div>
     </div>
 
-    <div class="col-md-6">
-        <h1 class="mb-3">{{ product.name }}</h1>
-        <h2 class="text-primary mb-3">{{ product.price_per_day }} BYN <small class="text-muted fs-5">/ сутки</small></h2>
+    <div class="col-md-7 ps-md-5">
+        <h1 class="mb-3 fw-bold">{{ product.name }}</h1>
+        <div class="text-muted mb-4">Категория: <a href="{% url 'catalog:product_list_by_category' product.category.slug %}" class="text-decoration-none">{{ product.category.name }}</a></div>
 
-        <p class="fs-5 mb-4">
-            Статус:
-            {% if product.status == 'available' %}
-                <span class="status-available">В наличии</span>
-            {% else %}
-                <span class="status-rented">Занято</span>
-            {% endif %}
-        </p>
+        <div class="bg-light p-4 rounded mb-4 d-flex align-items-center justify-content-between">
+            <div>
+                <span class="text-muted d-block mb-1">Стоимость аренды:</span>
+                <h2 class="text-dark fw-bold mb-0">{{ product.price_per_day }} BYN <small class="text-muted fs-5 fw-normal">/ сутки</small></h2>
+            </div>
+            <div class="text-end">
+                <span class="text-muted d-block mb-1">Наличие:</span>
+                <span class="fs-5 fw-bold {% if product.status == 'available' %}text-success{% else %}text-danger{% endif %}">
+                    {% if product.status == 'available' %}<i class="bi bi-check-circle-fill"></i> В наличии{% else %}<i class="bi bi-x-circle-fill"></i> Занято{% endif %}
+                </span>
+            </div>
+        </div>
 
         {% if product.description %}
             <h4>Описание</h4>
@@ -63,16 +77,16 @@
         {% endif %}
 
         <!-- Order Form Card -->
-        <div class="card mt-5 shadow-sm border-primary">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Забронировать инструмент</h5>
+        <div class="card mt-5 shadow-sm border-warning">
+            <div class="card-header bg-warning text-dark fw-bold">
+                <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i> Забронировать инструмент</h5>
             </div>
-            <div class="card-body">
+            <div class="card-body bg-light">
                 <form method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    <div class="d-grid mt-3">
-                        <button type="submit" class="btn btn-lg btn-success">Отправить заявку</button>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-lg btn-dark fw-bold">Оформить заявку <i class="bi bi-arrow-right ms-2"></i></button>
                     </div>
                 </form>
             </div>

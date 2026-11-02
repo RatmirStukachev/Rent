@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from .models import Category, Product, ProductCharacteristic, Order
+from .models import Category, Product, ProductCharacteristic, Order, SliderItem
 from datetime import date, timedelta
 
 class CatalogViewsTest(TestCase):
@@ -13,19 +13,35 @@ class CatalogViewsTest(TestCase):
             slug="bolgarka",
             description="Отличная болгарка",
             price_per_day="20.00",
-            status="available"
+            status="available",
+            is_hit=True,
+            is_new=True
         )
         self.characteristic = ProductCharacteristic.objects.create(
             product=self.product,
             name="Мощность",
             value="1000 Вт"
         )
+        self.slide = SliderItem.objects.create(
+            title="Скидка 10%",
+            image="test.jpg"
+        )
 
     def test_product_list_view(self):
         response = self.client.get(reverse('catalog:product_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Болгарка")
+        self.assertContains(response, "Скидка 10%")
         self.assertTemplateUsed(response, 'catalog/product_list.html')
+
+    def test_product_list_search(self):
+        response = self.client.get(reverse('catalog:product_list') + '?q=Болгарка')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Болгарка")
+
+        response = self.client.get(reverse('catalog:product_list') + '?q=НесуществующийТовар')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Болгарка")
 
     def test_product_list_by_category_view(self):
         response = self.client.get(reverse('catalog:product_list_by_category', args=[self.category.slug]))
