@@ -12,47 +12,72 @@
 </head>
 <body>
 
-<!-- Topbar with contacts -->
-<div class="bg-light py-2 border-bottom d-none d-lg-block">
-    <div class="container d-flex justify-content-between align-items-center">
-        <div class="text-muted small">
-            <i class="bi bi-geo-alt-fill text-danger me-1"></i> г. Минск, ул. Тимирязева, 129/1
-        </div>
-        <div>
-            <a href="mailto:info@perf.rent.by" class="text-decoration-none text-dark me-3"><i class="bi bi-envelope text-primary me-1"></i> info@perf.rent.by</a>
-            <span class="fw-bold text-dark"><i class="bi bi-telephone-fill text-success me-1"></i> +375 (29) 555-4-222</span>
+<!-- Header Desktop -->
+<header class="perf-header bg-white d-none d-lg-block">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3">
+                <a class="perf-logo" href="{% url 'catalog:product_list' %}">Perf<span>.by</span></a>
+                <div class="text-muted small mt-1">Прокат строительного инструмента</div>
+            </div>
+            <div class="col-lg-5">
+                <form action="{% url 'catalog:product_list' %}" method="GET" class="d-flex">
+                    <div class="input-group">
+                        <input type="search" class="form-control perf-search-input" name="q" placeholder="Поиск по каталогу..." value="{{ search_query|default_if_none:'' }}">
+                        <button class="btn perf-search-btn" type="submit"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4 text-end">
+                <div class="d-inline-block text-start me-4 align-middle">
+                    <div class="small text-muted"><i class="bi bi-clock me-1"></i> вт-вс 8:30–17:00</div>
+                    <a href="tel:+375295554222" class="perf-phone">+375 (29) 555-4-222</a>
+                </div>
+                <a href="{% url 'catalog:product_list' %}" class="btn-perf-outline d-inline-block align-middle"><i class="bi bi-cart3 fs-5"></i></a>
+            </div>
         </div>
     </div>
-</div>
+</header>
 
-<!-- Main Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'catalog:product_list' %}">
-            <span class="fs-3 fw-bolder text-warning">perf.rent<span class="text-white">.by</span></span>
-        </a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+<!-- Mobile Header -->
+<header class="perf-header bg-white d-lg-none">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="perf-logo" href="{% url 'catalog:product_list' %}">Perf<span>.by</span></a>
+        <button class="btn btn-light border" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu">
+            <i class="bi bi-list fs-4"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-
-            <form class="d-flex mx-lg-4 my-3 my-lg-0 flex-grow-1" action="{% url 'catalog:product_list' %}" method="GET">
+    </div>
+    <div class="collapse" id="mobileMenu">
+        <div class="container mt-3">
+            <form action="{% url 'catalog:product_list' %}" method="GET" class="d-flex mb-3">
                 <div class="input-group">
-                    <input class="form-control border-warning" type="search" name="q" placeholder="Поиск инструмента..." value="{{ search_query|default_if_none:'' }}">
-                    <button class="btn btn-warning text-dark px-4 fw-bold" type="submit"><i class="bi bi-search"></i></button>
+                    <input type="search" class="form-control perf-search-input" name="q" placeholder="Поиск...">
+                    <button class="btn perf-search-btn" type="submit"><i class="bi bi-search"></i></button>
                 </div>
             </form>
-
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item">
-                    <a class="nav-link active text-uppercase fw-bold" href="{% url 'catalog:product_list' %}"><i class="bi bi-list me-1"></i> Каталог</a>
-                </li>
-            </ul>
+            <div class="mb-3 text-center">
+                <a href="tel:+375295554222" class="perf-phone d-block mb-2">+375 (29) 555-4-222</a>
+                <span class="small text-muted">вт-вс 8:30–17:00</span>
+            </div>
         </div>
+    </div>
+</header>
+
+<!-- Main Navigation (Dark) -->
+<nav class="perf-nav d-none d-lg-block">
+    <div class="container">
+        <ul class="navbar-nav d-flex justify-content-start">
+            <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_list' %}"><i class="bi bi-list me-1"></i> Каталог товаров</a></li>
+            <!-- Dummy links to match visual style -->
+            <li class="nav-item"><a class="nav-link" href="#">О магазине</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Доставка</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Оплата</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Контакты</a></li>
+        </ul>
     </div>
 </nav>
 
-<div class="container mt-4 main-container">
+<div class="container mt-4 mb-5 main-container">
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -66,11 +91,41 @@
     {% endblock %}
 </div>
 
-<footer class="footer mt-5 pt-5 pb-3">
-    <div class="container text-center">
-        <div class="fs-4 fw-bolder text-warning mb-3">perf.rent<span class="text-white">.by</span></div>
-        <p>&copy; {% now "Y" %} ООО «Перфрент». Все права защищены.</p>
-        <p class="text-muted small">Обращаем ваше внимание, что информация, размещенная на сайте, носит информационный характер.</p>
+<footer class="perf-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <a class="perf-logo text-white mb-3 d-inline-block" href="{% url 'catalog:product_list' %}">Perf<span>.by</span></a>
+                <p class="small text-muted mt-2">ООО «Перфбай», Юридический адрес: г. Минск, ул. Тимирязева, 129/1</p>
+                <p class="small text-muted">© 2025 г. Все права защищены.</p>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <div class="perf-footer-title">Информация</div>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#">О магазине</a></li>
+                    <li class="mb-2"><a href="#">Доставка</a></li>
+                    <li class="mb-2"><a href="#">Оплата</a></li>
+                    <li class="mb-2"><a href="#">Акции и скидки</a></li>
+                    <li class="mb-2"><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <div class="perf-footer-title">Каталог</div>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#">Инструмент</a></li>
+                    <li class="mb-2"><a href="#">Садовая техника</a></li>
+                    <li class="mb-2"><a href="#">Силовая техника</a></li>
+                    <li class="mb-2"><a href="#">Автомобильные аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <div class="perf-footer-title">Контакты</div>
+                <div class="mb-2"><i class="bi bi-telephone text-muted me-2"></i><a href="tel:+375295554222" class="text-white fs-5 fw-bold">+375 (29) 555-4-222</a></div>
+                <div class="mb-3"><i class="bi bi-envelope text-muted me-2"></i><a href="mailto:info@perf.by">info@perf.by</a></div>
+                <div class="small text-muted mb-1">г. Минск, ул. Тимирязева, 129/1, 2 этаж, пав. №17</div>
+                <div class="small text-muted">вт-вс с 8:30 до 17:00</div>
+            </div>
+        </div>
     </div>
 </footer>
 

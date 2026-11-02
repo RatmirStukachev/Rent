@@ -7,40 +7,36 @@
 {% block content %}
 <div class="row">
     <!-- Sidebar / Categories -->
-    <div class="col-md-3 mb-4">
-        <div class="category-menu shadow-sm rounded bg-white">
-            <div class="bg-warning text-dark p-3 fw-bold rounded-top d-flex align-items-center">
-                <i class="bi bi-list fs-4 me-2"></i> КАТАЛОГ
-            </div>
-            <div class="list-group list-group-flush rounded-bottom">
-                <a href="{% url 'catalog:product_list' %}" class="list-group-item list-group-item-action {% if not category and not search_query %}text-warning fw-bold{% endif %}">
-                    Все категории
+    <div class="col-lg-3 mb-4 d-none d-lg-block">
+        <div class="perf-sidebar-title">КАТАЛОГ</div>
+        <div class="list-group perf-category-list">
+            <a href="{% url 'catalog:product_list' %}" class="list-group-item list-group-item-action {% if not category and not search_query %}active{% endif %}">
+                Все категории
+            </a>
+            {% for c in categories %}
+                <a href="{% url 'catalog:product_list_by_category' c.slug %}" class="list-group-item list-group-item-action {% if category.slug == c.slug %}active{% endif %}">
+                    {{ c.name }}
                 </a>
-                {% for c in categories %}
-                    <a href="{% url 'catalog:product_list_by_category' c.slug %}" class="list-group-item list-group-item-action {% if category.slug == c.slug %}text-warning fw-bold{% endif %}">
-                        {{ c.name }}
-                    </a>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="col-md-9">
+    <div class="col-lg-9">
 
         {% if not category and not search_query %}
             <!-- Slider -->
             {% if slides %}
-            <div id="mainCarousel" class="carousel slide mb-5 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+            <div id="mainCarousel" class="carousel slide mb-5 perf-slider" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     {% for slide in slides %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <img src="{{ slide.image.url }}" class="d-block w-100" alt="{{ slide.title }}" style="max-height: 400px; object-fit: cover;">
-                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
-                            <h3 class="fw-bold">{{ slide.title }}</h3>
-                            {% if slide.subtitle %}<p class="fs-5">{{ slide.subtitle }}</p>{% endif %}
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-4 text-start">
+                            <h3 class="fw-bold text-white fs-2">{{ slide.title }}</h3>
+                            {% if slide.subtitle %}<p class="fs-5 text-light">{{ slide.subtitle }}</p>{% endif %}
                             {% if slide.link %}
-                            <a href="{{ slide.link }}" class="btn btn-warning mt-2">Подробнее</a>
+                            <a href="{{ slide.link }}" class="btn-perf mt-3 d-inline-block">Подробнее</a>
                             {% endif %}
                         </div>
                     </div>
@@ -59,8 +55,8 @@
 
             <!-- Hit Products -->
             {% if hit_products %}
-            <h3 class="section-title mb-4 border-bottom pb-2">Популярные товары</h3>
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
+            <h3 class="perf-section-title">Популярные товары</h3>
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
                 {% for product in hit_products %}
                     {% include 'catalog/includes/product_card.html' with product=product %}
                 {% endfor %}
@@ -69,15 +65,15 @@
 
             <!-- New Products -->
             {% if new_products %}
-            <h3 class="section-title mb-4 border-bottom pb-2">Новинки</h3>
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
+            <h3 class="perf-section-title">Новинки</h3>
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
                 {% for product in new_products %}
                     {% include 'catalog/includes/product_card.html' with product=product %}
                 {% endfor %}
             </div>
             {% endif %}
 
-            <h3 class="section-title mb-4 border-bottom pb-2">Все инструменты</h3>
+            <h3 class="perf-section-title">Все инструменты</h3>
         {% else %}
             <h2 class="mb-4">
                 {% if search_query %}
@@ -89,12 +85,12 @@
         {% endif %}
 
         <!-- All Products List -->
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
             {% for product in products %}
                 {% include 'catalog/includes/product_card.html' with product=product %}
             {% empty %}
                 <div class="col-12">
-                    <div class="alert alert-info border-0 shadow-sm">
+                    <div class="alert alert-light border">
                         По вашему запросу ничего не найдено.
                     </div>
                 </div>

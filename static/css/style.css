@@ -1,56 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --perf-orange: #ff5f00;
+    --perf-orange-hover: #e65600;
+    --perf-dark: #202020;
+    --perf-gray-bg: #f1f1f1;
+    --perf-border: #ececec;
+    --perf-text: #333333;
+    --perf-danger: #c44a4a;
+    --perf-success: #4caf50;
+}
+
 body {
-    background-color: #f8f9fa;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--perf-text);
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
 }
 
-.main-container {
-    min-height: 70vh;
+/* ==================== BUTTONS ==================== */
+.btn-perf {
+    background-color: var(--perf-orange);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
-.product-card {
+.btn-perf:hover {
+    background-color: var(--perf-orange-hover);
+    color: #fff;
+}
+
+.btn-perf-outline {
+    background-color: transparent;
+    color: var(--perf-orange);
+    border: 2px solid var(--perf-orange);
+    border-radius: 4px;
+    font-weight: 600;
+    padding: 8px 18px;
     transition: all 0.3s ease;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+.btn-perf-outline:hover {
+    background-color: var(--perf-orange);
+    color: #fff;
 }
 
-.product-link:hover {
-    color: #ffc107 !important;
+/* ==================== HEADER ==================== */
+.perf-header {
+    border-bottom: 1px solid var(--perf-border);
+    padding: 15px 0;
 }
 
-.category-menu .list-group-item {
-    border-left: 3px solid transparent;
-    transition: all 0.2s;
-}
-
-.category-menu .list-group-item:hover {
-    background-color: #f8f9fa;
-    border-left-color: #ffc107;
-}
-
-.category-menu .list-group-item.text-warning {
-    background-color: #fff3cd;
-    border-left-color: #ffc107;
-}
-
-.section-title {
+.perf-logo {
+    color: var(--perf-dark);
     font-weight: 800;
-    color: #343a40;
+    font-size: 28px;
+    text-decoration: none;
+    letter-spacing: -1px;
+}
+.perf-logo span {
+    color: var(--perf-orange);
+}
+
+.perf-phone {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--perf-dark);
+    text-decoration: none;
+}
+.perf-phone:hover {
+    color: var(--perf-orange);
+}
+
+.perf-search-input {
+    border: 2px solid var(--perf-orange);
+    border-radius: 4px 0 0 4px;
+    padding: 10px 15px;
+}
+.perf-search-input:focus {
+    box-shadow: none;
+    border-color: var(--perf-orange);
+}
+.perf-search-btn {
+    background-color: var(--perf-orange);
+    border: 2px solid var(--perf-orange);
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    padding: 0 20px;
+}
+.perf-search-btn:hover {
+    background-color: var(--perf-orange-hover);
+    border-color: var(--perf-orange-hover);
+    color: #fff;
+}
+
+.perf-nav {
+    background-color: var(--perf-dark);
+}
+.perf-nav .nav-link {
+    color: #fff;
+    font-weight: 600;
     text-transform: uppercase;
+    font-size: 14px;
+    padding: 15px 20px !important;
+}
+.perf-nav .nav-link:hover {
+    background-color: var(--perf-orange);
+}
+.perf-nav .navbar-nav {
+    flex-direction: row;
 }
 
-/* Customizing Bootstrap Warning Color to match perf.by Orange better if needed,
-   though standard warning is quite close */
-.btn-warning {
-    color: #000;
-    background-color: #ffc107;
-    border-color: #ffc107;
+/* ==================== SIDEBAR ==================== */
+.perf-sidebar-title {
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--perf-border);
+}
+.perf-category-list .list-group-item {
+    border: none;
+    padding: 10px 0;
+    color: var(--perf-text);
+    font-size: 15px;
+    transition: color 0.2s;
+}
+.perf-category-list .list-group-item:hover,
+.perf-category-list .list-group-item.active {
+    background: none;
+    color: var(--perf-orange);
+    font-weight: 600;
 }
 
-.btn-warning:hover {
-    color: #000;
-    background-color: #ffcd39;
-    border-color: #ffc720;
+/* ==================== PRODUCT CARDS ==================== */
+.perf-product-card {
+    border: 1px solid var(--perf-border);
+    border-radius: 8px;
+    transition: all 0.2s;
+    height: 100%;
+    position: relative;
+    background: #fff;
+}
+.perf-product-card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: #ddd;
+}
+.perf-product-img-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--perf-border);
+}
+.perf-product-img-wrapper img {
+    max-height: 180px;
+    object-fit: contain;
+}
+.perf-product-title {
+    font-size: 14px;
+    color: var(--perf-text);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    height: 40px;
+    overflow: hidden;
+}
+.perf-product-title:hover {
+    color: var(--perf-orange);
+}
+.perf-product-price {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--perf-dark);
+}
+
+.perf-badge {
+    position: absolute;
+    top: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #fff;
+    z-index: 10;
+}
+.perf-badge.new {
+    background-color: var(--perf-danger);
+    left: 10px;
+}
+.perf-badge.hit {
+    background-color: var(--perf-success);
+    left: 10px;
+    top: 35px;
+}
+
+/* ==================== SLIDER & HEADINGS ==================== */
+.perf-section-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: var(--perf-dark);
+}
+.perf-slider {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ==================== FOOTER ==================== */
+.perf-footer {
+    background-color: var(--perf-dark);
+    color: #ccc;
+    padding: 40px 0 20px;
+    margin-top: 60px;
+    font-size: 14px;
+}
+.perf-footer a {
+    color: #ccc;
+    text-decoration: none;
+}
+.perf-footer a:hover {
+    color: var(--perf-orange);
+}
+.perf-footer-title {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 16px;
 }
